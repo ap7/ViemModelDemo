@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import fr.ap7.viewmodeldemo.R
 import kotlinx.android.synthetic.main.main_fragment.*
 
@@ -35,12 +36,19 @@ class MainFragment : Fragment() {
         // This is here we needs to updated the react of views (button,..)
         // Interact whit the data stores int the view model
 
-        resultText.text = viewModel.getResult().toString()
+
+        // Configure an observer within the ui controller
+        // This an instances, is an lambda when it called, is passed the current result value which it convert to a string
+        // Add an observer to the result livedata object
+        // The result printed in Textview is now under responsibility of the onChanged method from Observer interface
+        // The observer received notification that the result value had changed and called the onChanged method to display the latest data
+        val resultObserver = Observer<Float> { result ->  resultText.text = result.toString() }
+
+        viewModel.getResult().observe(viewLifecycleOwner, resultObserver)
 
         convertButton.setOnClickListener {
             if (resultText.text.isNotEmpty()) {
                 viewModel.setAmount(dollarText.text.toString())
-                resultText.text = viewModel.getResult().toString()
             } else {
                 resultText.text = R.string.no_value.toString()
             }
