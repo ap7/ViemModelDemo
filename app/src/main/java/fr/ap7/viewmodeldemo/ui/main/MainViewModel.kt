@@ -3,6 +3,8 @@ package fr.ap7.viewmodeldemo.ui.main
 import androidx.lifecycle.ViewModel
 
 class MainViewModel : ViewModel() {
+
+    // Define data model within the view model
     private val usdToEuRate = 0.4f
     private var dollarText = ""
     private var result = 0f

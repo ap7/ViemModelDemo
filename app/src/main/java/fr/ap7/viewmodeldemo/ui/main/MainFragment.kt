@@ -26,7 +26,14 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        // Associating the view (fragment) with the view model
+        // Fragment or Activity maintain references to the view models
+        // Fragment or Activity relies on data using an instance of the view model provider class
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
+        // This is here we needs to updated the react of views (button,..)
+        // Interact whit the data stores int the view model
 
         resultText.text = viewModel.getResult().toString()
 
