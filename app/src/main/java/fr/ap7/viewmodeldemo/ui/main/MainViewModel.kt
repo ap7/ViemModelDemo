@@ -7,13 +7,14 @@ class MainViewModel : ViewModel() {
 
     // Define data model within the view model
     private val usdToEuRate = 0.4f
-    private var dollarText = ""
+
+    var dollarValue: MutableLiveData<String> = MutableLiveData()
 
     // This value is wrapped to MutableLiveData instance
     // result value is mutable because the value can be  changed each time the user request it
-    private var result: MutableLiveData<Float> = MutableLiveData()
+    var result: MutableLiveData<Float> = MutableLiveData()
 
-    fun setAmount(value: String) {
+    /*fun setAmount(value: String) {
         try {
             dollarText = value
             result.setValue(value.toFloat() * usdToEuRate)
@@ -24,5 +25,16 @@ class MainViewModel : ViewModel() {
 
     fun getResult(): MutableLiveData<Float> {
         return result
+    }*/
+
+    // Adding the conversion method
+    fun convertValue() {
+        dollarValue.let {
+            if (!it.value.equals("")) {
+                result.value = it.value?.toFloat()?.times(usdToEuRate)
+            } else {
+                result.value = 0F
+            }
+        }
     }
 }
