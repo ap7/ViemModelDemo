@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
+import fr.ap7.viewmodeldemo.BR.myViewModel
 import fr.ap7.viewmodeldemo.R
 import fr.ap7.viewmodeldemo.databinding.MainFragmentBinding
-import fr.ap7.viewmodeldemo.BR.myViewModel
+import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainFragment : Fragment() {
 
@@ -43,7 +46,6 @@ class MainFragment : Fragment() {
         //Assign view model instance to the data binding variable
         binding.setVariable(myViewModel, viewModel)
 
-
         // This is here we needs to updated the react of views (button,..)
         // Interact whit the data stores int the view model
 
@@ -63,5 +65,10 @@ class MainFragment : Fragment() {
                 resultText.text = R.string.no_value.toString()
             }
         }*/
+
+        activity?.application?.let {
+            val factory = SavedStateViewModelFactory(it, this)
+            viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
+        }
     }
 }
